@@ -7,7 +7,7 @@ import java.util.*;
 public class AllPairShortestPath {
     public final static int INF = 99999, V = 7;
 
-    public void floydWarshall(int dist[][], int startStation, int endStation, boolean printGraph)
+    public int[][] floydWarshall(int[][] dist, int startStation, int endStation)
     {
 
         int i, j, k;
@@ -43,15 +43,10 @@ public class AllPairShortestPath {
                 }
             }
         }
-
-        System.out.printf("The shortest distance between %d and %d is %d%n",
-                startStation, endStation, dist[startStation - 1][endStation - 1]);
-        // Print the shortest distance matrix
-        if (printGraph)
-            printSolution(dist);
+        return dist;
     }
 
-    void printSolution(int dist[][])
+    public void printSolution(int[][] dist)
     {
         System.out.println(
                 "The following matrix shows the shortest "
