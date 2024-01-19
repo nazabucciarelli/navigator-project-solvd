@@ -6,6 +6,20 @@ public class Road {
     private int toStationId;
     private float distance;
 
+    public Road(int id, int fromStationId, int toStationId, float distance) {
+        this.id = id;
+        this.fromStationId = fromStationId;
+        this.toStationId = toStationId;
+        this.distance = distance;
+    }
+
+    public Road() {
+        this.id = 0;
+        this.fromStationId = 0;
+        this.toStationId = 0;
+        this.distance = 0.0F;
+    }
+
     public int getId() {
         return id;
     }
