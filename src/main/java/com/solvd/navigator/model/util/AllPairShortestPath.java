@@ -5,9 +5,9 @@ import java.lang.*;
 import java.util.*;
 
 public class AllPairShortestPath {
-    public final static int INF = 99999, V = 4;
+    public final static int INF = 99999, V = 7;
 
-    public void floydWarshall(int dist[][])
+    public void floydWarshall(int dist[][], int startStation, int endStation, boolean printGraph)
     {
 
         int i, j, k;
@@ -44,8 +44,11 @@ public class AllPairShortestPath {
             }
         }
 
+        System.out.printf("The shortest distance between %d and %d is %d%n",
+                startStation, endStation, dist[startStation - 1][endStation - 1]);
         // Print the shortest distance matrix
-        printSolution(dist);
+        if (printGraph)
+            printSolution(dist);
     }
 
     void printSolution(int dist[][])
@@ -64,27 +67,6 @@ public class AllPairShortestPath {
         }
     }
 
-    // Driver's code
-    /*public static void main(String[] args)
-    {
-        //stations
-        int graph[][] = {
-                { 0  , 5  , INF, 10 },
-                { INF, 0  , 3  , INF},
-                { INF, INF, 0  , 1  },
-                { INF, INF, INF, 0  }
-        };
-        AllPairShortestPath a = new AllPairShortestPath();
-
-        // Function call
-        a.floydWarshall(graph);
-
-        int startStation = 1;
-        int endStation = 0;
-        int shortestDistance = graph[startStation][endStation];
-
-        System.out.println(shortestDistance);
-    }*/
 }
 
 // Contributed by Aakash Hasija
