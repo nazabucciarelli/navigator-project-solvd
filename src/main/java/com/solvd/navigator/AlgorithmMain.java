@@ -18,7 +18,7 @@ public class AlgorithmMain {
         };
 
         AllPairShortestPath allPairShortestPath = new AllPairShortestPath();
-        allPairShortestPath.floydWarshall(graph, 1, 4, true);
+        allPairShortestPath.floydWarshall(graph, 1, 4);
 
     }
 }
