@@ -18,7 +18,7 @@ public class RoadDao implements IRoadDao {
 
     /**
      * Returns the road with the matching id. If there is not a match,
-     * a station with id=0 is returned.
+     * a road with id=0 is returned.
      *
      * @param id of the road
      * @return Road object
@@ -54,7 +54,7 @@ public class RoadDao implements IRoadDao {
     /**
      * Returns a list with all the entries from the roads table
      *
-     * @return List of Roads
+     * @return List of Road
      */
     @Override
     public List<Road> getAll() {
