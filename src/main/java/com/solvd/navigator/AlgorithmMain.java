@@ -1,6 +1,7 @@
 package com.solvd.navigator;
 
 import com.solvd.navigator.model.util.AllPairShortestPath;
+import com.solvd.navigator.model.Transport;
 
 import static com.solvd.navigator.model.util.AllPairShortestPath.INF;
 
