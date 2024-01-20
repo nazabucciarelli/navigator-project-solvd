@@ -51,4 +51,14 @@ public class Road {
     public void setDistance(float distance) {
         this.distance = distance;
     }
+
+    @Override
+    public String toString() {
+        return "Road{" +
+                "id=" + id +
+                ", fromStationId=" + fromStationId +
+                ", toStationId=" + toStationId +
+                ", distance=" + distance +
+                '}';
+    }
 }
