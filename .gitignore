@@ -39,3 +39,6 @@ build/
 
 ### log folder ###
 logs
+
+### this file has sensitive data from the database ###
+db.properties
