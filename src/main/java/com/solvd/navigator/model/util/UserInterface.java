@@ -1,6 +1,7 @@
 package com.solvd.navigator.model.util;
 
 import com.solvd.navigator.model.Transport;
+import com.solvd.navigator.services.StationService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,12 +11,14 @@ import java.util.Scanner;
 public class UserInterface {
     private static final Scanner input = new Scanner(System.in);
     private List<String> stations;
+    private StationService stationService;
     private int[][] graph;
 
     private AllPairShortestPath allPairShortestPath;
 
     public UserInterface(int[][] graph) {
-        this.stations = new ArrayList<>(List.of("Jackson Street 140", "Oak Street 243", "Park Street 9", "Dogwood Street 93", "Main Street 332", "Green Street 204", "Sunset Street 920"));
+        this.stations = new ArrayList<>();
+        this.stationService = new StationService();
         this.allPairShortestPath = new AllPairShortestPath();
         this.graph = graph;
     }
@@ -65,6 +68,7 @@ public class UserInterface {
     }
 
     private void showAvailableStations() {
+        this.stations = stationService.getAllStationsNames();
         System.out.println("The available stations are: ");
         for (String station : stations) {
             System.out.println(" - " + station);

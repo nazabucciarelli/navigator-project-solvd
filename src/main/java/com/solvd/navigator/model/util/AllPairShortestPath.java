@@ -1,12 +1,21 @@
 package com.solvd.navigator.model.util;
 
 import com.solvd.navigator.model.PathContainer;
+import com.solvd.navigator.services.StationService;
 
+import java.io.*;
 import java.lang.*;
 import java.util.*;
 
 public class AllPairShortestPath {
-    public final static int INF = 99999, V = 7;
+    private StationService stationService;
+    public final static int INF = 99999;
+    public final int V;
+
+    public AllPairShortestPath() {
+        this.stationService = new StationService();
+        this.V = stationService.getStationsAmount();
+    }
 
     public int[][] floydWarshall(int[][] dist, int startStation, int endStation) {
         int i, j, k;
