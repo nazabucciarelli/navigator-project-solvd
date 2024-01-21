@@ -16,8 +16,7 @@ public class Main {
                 { INF, INF, INF, INF,   6, INF,  0},
         };
 
-        UserInterface ui = new UserInterface();
+        UserInterface ui = new UserInterface(graph);
         ui.start();
-        ui.calculateShortestDistance(graph);
     }
 }
