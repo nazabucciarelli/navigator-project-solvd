@@ -71,6 +71,10 @@ public class StationService{
                 .toList();
     }
 
+    public int getStationsAmount() {
+        return getAllStations().size();
+    }
+
     /**
      * Checks if stations exist in the database
      * @param name
