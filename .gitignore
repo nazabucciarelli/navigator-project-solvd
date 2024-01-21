@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### log folder ###
+logs
+
+### this file has sensitive data from the database ###
+db.properties

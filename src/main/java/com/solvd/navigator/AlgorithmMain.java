@@ -2,6 +2,7 @@ package com.solvd.navigator;
 
 import com.solvd.navigator.model.PathContainer;
 import com.solvd.navigator.model.util.AllPairShortestPath;
+import com.solvd.navigator.model.Transport;
 
 import java.util.ArrayList;
 import java.util.List;
