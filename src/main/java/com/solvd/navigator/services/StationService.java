@@ -5,6 +5,7 @@ import com.solvd.navigator.dao.jdbc.StationDao;
 import com.solvd.navigator.model.Station;
 import com.solvd.navigator.model.exceptions.ElementDoesNotExistException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StationService{
@@ -60,6 +61,14 @@ public class StationService{
      */
     public List<Station> getAllStations() {
         return stationDao.getAll();
+    }
+
+    public List<String> getAllStationsNames() {
+        List<Station> stationList = getAllStations();
+
+        return stationList.stream()
+                .map(Station::getName)
+                .toList();
     }
 
     /**
