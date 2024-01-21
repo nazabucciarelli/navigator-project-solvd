@@ -1,5 +1,6 @@
 package com.solvd.navigator.model.util;
 
+import com.solvd.navigator.model.PathContainer;
 import com.solvd.navigator.services.StationService;
 
 import java.io.*;
@@ -16,47 +17,72 @@ public class AllPairShortestPath {
         this.V = stationService.getStationsAmount();
     }
 
-    public int[][] floydWarshall(int[][] dist, int startStation, int endStation)
-    {
-
+    public int[][] floydWarshall(int[][] dist, int startStation, int endStation) {
         int i, j, k;
-
-		/* Add all vertices one by one
-		to the set of intermediate
-		vertices.
-		---> Before start of an iteration,
-			we have shortest
-			distances between all pairs
-			of vertices such that
-			the shortest distances consider
-			only the vertices in
-			set {0, 1, 2, .. k-1} as
-			intermediate vertices.
-		----> After the end of an iteration,
-				vertex no. k is added
-				to the set of intermediate
-				vertices and the set
-				becomes {0, 1, 2, .. k} */
+        //startStation endStation never used
         for (k = 0; k < V; k++) {
-            // Pick all vertices as source one by one
             for (i = 0; i < V; i++) {
-                // Pick all vertices as destination for the
-                // above picked source
                 for (j = 0; j < V; j++) {
-                    // If vertex k is on the shortest path
-                    // from i to j, then update the value of
-                    // dist[i][j]
-                    if (dist[i][k] + dist[k][j] < dist[i][j])
-
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
                         dist[i][j] = dist[i][k] + dist[k][j];
+                    }
                 }
             }
         }
+
         return dist;
     }
 
-    public void printSolution(int[][] dist)
-    {
+    public PathContainer floydWarshallWithPath(int[][] dist, int startStation, int endStation) {
+
+        //Path matrix
+        int[][] pathMatrix = new int[V][V];
+
+        for (int i = 0; i < dist.length; i++) {
+            for (int j = 0; j < dist.length; j++) {
+                if (dist[i][j] == INF) {
+                    pathMatrix[i][j] = -1;
+                } else {
+                    pathMatrix[i][j] = i;
+                }
+            }
+        }
+
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                        pathMatrix[i][j] = pathMatrix[k][j];
+                    }
+                }
+            }
+        }
+
+        List<Integer> pathFromAtoB = pathFromAtoB(pathMatrix, startStation, endStation);
+
+        return new PathContainer(dist[startStation][endStation], pathFromAtoB);
+    }
+
+    private List<Integer> pathFromAtoB(int[][] paths, int startStation, int endStation) {
+
+        //Initialize list to add stations to follow to arrive at the final station
+        List<Integer> list = new LinkedList<>();
+
+        int end = endStation;
+        list.addFirst(end);
+
+        while (paths[startStation][end] != startStation) {
+            list.addFirst(paths[startStation][end]);
+            end = paths[startStation][end];
+        }
+
+        list.addFirst(startStation);
+
+        return list;
+    }
+
+    public void printSolution(int[][] dist) {
         System.out.println(
                 "The following matrix shows the shortest "
                         + "distances between every pair of vertices");
@@ -72,6 +98,4 @@ public class AllPairShortestPath {
     }
 
 }
-
-// Contributed by Aakash Hasija
 
