@@ -7,30 +7,36 @@ import com.solvd.navigator.model.exceptions.ElementDoesNotExistException;
 
 import java.util.List;
 
-public class RoadDaoService{
-    public IRoadDao roadDao = new RoadDao();
+public class RoadService {
+    private final IRoadDao roadDao = new RoadDao();
 
+    /**
+     * Returns the road with the matching id. If there is not a match,
+     * an ElementDoesNotExistException is thrown.
+     *
+     * @param id
+     * @return Road object
+     * @throws ElementDoesNotExistException
+     */
     public Road getById(int id) throws ElementDoesNotExistException {
         if (id == 0) {
-            throw new NullPointerException("Parameter \"id\" can't be 0");
+            throw new RuntimeException("Parameter \"id\" have to be positive and not zero");
         }
         Road road = roadDao.getById(id);
         if (road.getId() == 0) {
             throw new ElementDoesNotExistException(String.format(
-                    "The element with id: \"%s\" does not exist in the database", id
+                    "The element with id: \"%d\" does not exist in the database", id
             ));
         }
         return road;
     }
 
-
-    public List<Road> getAll() {
-        return getAll();
-    }
-
-
-    public void showAvailableRoads() {
-        System.out.println(showAvailableRoads();
-
+    /**
+     * Returns a list with all the entries from the roads table
+     *
+     * @return List of Road
+     */
+    public List<Road> getAllRoads() {
+        return roadDao.getAll();
     }
 }

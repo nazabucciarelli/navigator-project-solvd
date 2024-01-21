@@ -7,8 +7,8 @@ import com.solvd.navigator.model.exceptions.ElementDoesNotExistException;
 
 import java.util.List;
 
-public class StationDaoService{
-    private IStationDao stationDao = new StationDao();
+public class StationService{
+    private final IStationDao stationDao = new StationDao();
 
     /**
      * Returns the station with the name supplied. If the station does not
@@ -33,28 +33,49 @@ public class StationDaoService{
         return station;
     }
 
-
+    /**
+     * Returns the station with the name supplied. If the station does not
+     * exist in the database, an exception is thrown.
+     * @param id
+     * @return Station object
+     * @throws ElementDoesNotExistException
+     */
     public Station getById(int id) throws ElementDoesNotExistException {
         if (id == 0) {
-            throw new NullPointerException("Parameter \"id\" can't be 0");
+            throw new RuntimeException("Parameter \"id\" have to be positive and not zero");
         }
         Station station = stationDao.getById(id);
         if (station.getId() == 0) {
             throw new ElementDoesNotExistException(String.format(
-                    "The element with id: \"%s\" does not exist in the database", id
+                    "The element with id: \"%d\" does not exist in the database", id
             ));
         }
         return station;
     }
 
-
-
-    public List<Station> getAll() {
-        return getAll();
+    /**
+     * Returns a list with all the stations in the database
+     *
+     * @return List of Station
+     */
+    public List<Station> getAllStations() {
+        return stationDao.getAll();
     }
 
-    public boolean showAvailableStations() {
-        System.out.println(showAvailableStations());
-        return false;
+    /**
+     * Checks if stations exist in the database
+     * @param name
+     * @return true if element exist
+     * @throws RuntimeException
+     */
+    public boolean stationExist(String name) throws RuntimeException {
+        if (name == null) {
+            throw new NullPointerException("Parameter \"name\" can't be null");
+        }
+        if (name.isEmpty()) {
+            throw new RuntimeException("Parameter \"name\" can't be empty");
+        }
+        Station station = stationDao.getByName(name);
+        return station.getId() != 0;
     }
 }

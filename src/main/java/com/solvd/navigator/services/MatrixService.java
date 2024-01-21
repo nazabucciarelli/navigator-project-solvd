@@ -44,7 +44,12 @@ public class MatrixService {
                 if (matrix[i][j] == INF) {
                     graph[i][j] = "INF";
                 } else {
-                    graph[i][j] = String.valueOf(matrix[i][j]);
+                    if (matrix[i][j] > 9) {
+                        graph[i][j] = matrix[i][j] + " ";
+                    } else {
+                        graph[i][j] = " " + matrix[i][j] + " ";
+
+                    }
                 }
             }
         }
