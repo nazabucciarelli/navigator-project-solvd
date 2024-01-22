@@ -1,9 +1,7 @@
 package com.solvd.navigator;
 
-import com.solvd.navigator.model.util.UserInterface;
-import com.solvd.navigator.services.MatrixService;
-
-import static com.solvd.navigator.model.util.AllPairShortestPath.INF;
+import com.solvd.navigator.util.UserInterface;
+import com.solvd.navigator.service.MatrixService;
 
 public class Main {
     public static void main(String[] args) {
