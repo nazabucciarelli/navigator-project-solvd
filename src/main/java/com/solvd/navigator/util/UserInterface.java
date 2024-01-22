@@ -1,7 +1,8 @@
-package com.solvd.navigator.model.util;
+package com.solvd.navigator.util;
 
+import com.solvd.navigator.model.PathContainer;
 import com.solvd.navigator.model.Transport;
-import com.solvd.navigator.services.StationService;
+import com.solvd.navigator.service.StationService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,10 +12,10 @@ import java.util.Scanner;
 public class UserInterface {
     private static final Scanner input = new Scanner(System.in);
     private List<String> stations;
-    private StationService stationService;
-    private int[][] graph;
+    private final StationService stationService;
+    private final int[][] graph;
 
-    private AllPairShortestPath allPairShortestPath;
+    private final AllPairShortestPath allPairShortestPath;
 
     public UserInterface(int[][] graph) {
         this.stations = new ArrayList<>();
@@ -57,10 +58,14 @@ public class UserInterface {
     }
 
     public void getShortestPath(int startStation, int endStation) {
-        int[][] shortestGraph = allPairShortestPath.floydWarshall(this.graph, startStation, endStation);
-        System.out.printf("The shortest distance between %s station and %s station is %d%n",
-                stations.get(startStation - 1), stations.get(endStation - 1),
-                shortestGraph[startStation - 1][endStation - 1]);
+        PathContainer shortestPath = allPairShortestPath.floydWarshallWithPath(this.graph, startStation, endStation);
+        List<String> path = shortestPath.getPathFromAtoB()
+                .stream()
+                .map(integer -> this.stations.get(integer))
+                .toList();
+        System.out.printf("The shortest distance between %s station and %s station is %d%n and you will have to" +
+                        " pass through the stations " + path, stations.get(startStation - 1),
+                stations.get(endStation - 1), shortestPath.getShortestDistance());
     }
 
     public void getPathAndBuses(int startStation, int endStation) {

@@ -1,11 +1,10 @@
-package com.solvd.navigator.services;
+package com.solvd.navigator.service;
 
 import com.solvd.navigator.dao.IStationDao;
 import com.solvd.navigator.dao.jdbc.StationDao;
 import com.solvd.navigator.model.Station;
 import com.solvd.navigator.model.exceptions.ElementDoesNotExistException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StationService{

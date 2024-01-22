@@ -1,4 +1,4 @@
-package com.solvd.navigator.services;
+package com.solvd.navigator.service;
 
 import com.solvd.navigator.dao.IRoadDao;
 import com.solvd.navigator.dao.IStationDao;

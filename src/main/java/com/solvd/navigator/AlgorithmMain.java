@@ -1,13 +1,12 @@
 package com.solvd.navigator;
 
 import com.solvd.navigator.model.PathContainer;
-import com.solvd.navigator.model.util.AllPairShortestPath;
-import com.solvd.navigator.model.Transport;
+import com.solvd.navigator.util.AllPairShortestPath;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.solvd.navigator.model.util.AllPairShortestPath.INF;
+import static com.solvd.navigator.util.AllPairShortestPath.INF;
 
 public class AlgorithmMain {
     public static void main(String[] args) {
