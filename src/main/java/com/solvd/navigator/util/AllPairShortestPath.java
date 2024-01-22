@@ -1,9 +1,8 @@
-package com.solvd.navigator.model.util;
+package com.solvd.navigator.util;
 
 import com.solvd.navigator.model.PathContainer;
-import com.solvd.navigator.services.StationService;
+import com.solvd.navigator.service.StationService;
 
-import java.io.*;
 import java.lang.*;
 import java.util.*;
 
@@ -34,7 +33,8 @@ public class AllPairShortestPath {
     }
 
     public PathContainer floydWarshallWithPath(int[][] dist, int startStation, int endStation) {
-
+        startStation -= 1;
+        endStation -=1;
         //Path matrix
         int[][] pathMatrix = new int[V][V];
 
