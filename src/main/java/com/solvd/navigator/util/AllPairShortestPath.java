@@ -64,7 +64,7 @@ public class AllPairShortestPath {
         return new PathContainer(dist[startStation][endStation], pathFromAtoB);
     }
 
-    public List<Integer> pathFromAtoB(int[][] paths, int startStation, int endStation) {
+    private List<Integer> pathFromAtoB(int[][] paths, int startStation, int endStation) {
 
         //Initialize list to add stations to follow to arrive at the final station
         List<Integer> list = new LinkedList<>();
