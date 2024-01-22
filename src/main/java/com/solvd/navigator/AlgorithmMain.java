@@ -13,20 +13,20 @@ public class AlgorithmMain {
 
         int[][] graph = {
                 {   0,   3, INF, INF, INF, INF, INF },
-                {   3,   0, INF,   8,   3, INF, INF },
+                {   3,   0, INF,   3, INF,   8, INF },
                 {  10, INF,   0, INF, INF, INF, INF },
-                { INF, INF, INF,   0, INF,   6, INF },
-                { INF, INF,   2,   4,   0, INF, INF },
-                { INF, INF, INF,   6,   5,   0,  3},
-                { INF, INF, INF, INF,   6, INF,  0},
+                { INF, INF,   2,   0, INF,   4, INF },
+                { INF, INF, INF,   1,   0, INF, INF },
+                { INF, INF, INF, INF, INF,   0,  6},
+                { INF, INF, INF,   5,   3,   6,  0},
         };
 
         AllPairShortestPath allPairShortestPath = new AllPairShortestPath();
-        int start = 2 - 1;
-        int end = 7 - 1;
+        int start = 7;
+        int end = 4;
 
         //Method Call
-        PathContainer pathsWrapper = allPairShortestPath.floydWarshallWithPath(graph, start, end);
+        PathContainer pathsWrapper = allPairShortestPath.floydWarshallWithSecondLeastPath(graph, start, end);
 
         //Print the shortest distance
         System.out.println("Shortest distance: " + pathsWrapper.getShortestDistance());
