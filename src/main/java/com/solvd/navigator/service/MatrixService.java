@@ -10,13 +10,13 @@ import com.solvd.navigator.model.Station;
 import java.util.List;
 
 public class MatrixService {
-    private static final int INF = 9999;
+    private static final int INF = 99999;
 
     public static int[][] generateGraphMatrix() {
-        IRoadDao roadDao = new RoadDao();
-        List<Road> roads = roadDao.getAll();
-        IStationDao stationDao = new StationDao();
-        List<Station> stations = stationDao.getAll();
+        RoadService roadService = new RoadService();
+        List<Road> roads = roadService.getAllRoads();
+        StationService stationService = new StationService();
+        List<Station> stations = stationService.getAllStations();
 
         int size = stations.size();
 
