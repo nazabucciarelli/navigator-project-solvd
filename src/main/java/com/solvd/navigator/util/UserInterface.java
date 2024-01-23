@@ -58,7 +58,7 @@ public class UserInterface {
     }
 
     public void getShortestPath(int startStation, int endStation) {
-        PathContainer shortestPath = allPairShortestPath.floydWarshallWithPath(this.graph, startStation, endStation);
+        PathContainer shortestPath = allPairShortestPath.floydWarshallWithLeastPath(this.graph, startStation, endStation);
         List<String> path = shortestPath.getPathFromAtoB()
                 .stream()
                 .map(integer -> this.stations.get(integer))

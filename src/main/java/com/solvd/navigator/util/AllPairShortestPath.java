@@ -32,7 +32,7 @@ public class AllPairShortestPath {
         return dist;
     }
 
-    public PathContainer floydWarshallWithPath(int[][] dist, int startStation, int endStation) {
+    public PathContainer floydWarshallWithLeastPath(int[][] dist, int startStation, int endStation) {
         startStation -= 1;
         endStation -=1;
         //Path matrix
@@ -62,6 +62,52 @@ public class AllPairShortestPath {
         List<Integer> pathFromAtoB = pathFromAtoB(pathMatrix, startStation, endStation);
 
         return new PathContainer(dist[startStation][endStation], pathFromAtoB);
+    }
+
+    public PathContainer floydWarshallWithSecondLeastPath(int[][] dist, int startStation, int endStation) {
+        startStation -= 1;
+        endStation -=1;
+        //Path matrix
+        int[][] pathMatrix = new int[V][V];
+        int[][] auxPathMatrix = new int[V][V];
+        int[][] auxDist = new int[V][V];
+
+        for (int i = 0; i < dist.length; i++) {
+            for (int j = 0; j < dist.length; j++) {
+                if (dist[i][j] == INF) {
+                    pathMatrix[i][j] = -1;
+                } else {
+                    pathMatrix[i][j] = i;
+                }
+            }
+        }
+
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        if (i == startStation && j == endStation) { // Make a copy of the last time the least path is found
+                            auxDist = copy(dist);             // That is, the second least path
+                            auxPathMatrix = copy(pathMatrix);
+                        }
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                        pathMatrix[i][j] = pathMatrix[k][j];
+                    }
+                }
+            }
+        }
+
+        List<Integer> pathFromAtoB = pathFromAtoB(auxPathMatrix, startStation, endStation);
+
+        return new PathContainer(auxDist[startStation][endStation], pathFromAtoB);
+    }
+
+    private int[][] copy(int[][] matrix) {
+        int[][] m = new int[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            System.arraycopy(matrix[i], 0, m[i], 0, matrix[i].length);
+        }
+        return m;
     }
 
     private List<Integer> pathFromAtoB(int[][] paths, int startStation, int endStation) {
