@@ -7,7 +7,10 @@ The map of stations is the following:
 
 ## Explanation
 
-In order to start doing this project, we firstly did a design plan representing all the entities and responsibilities of each one, so all the team members can understand what we are doing. Then, we started with the development of the project itself. We applied the MVC pattern and used very good programming practices.
+In order to start doing this project, we firstly did a design plan representing all the entities that will interact within the application
+and also the responsibilities of each developer, so all the team members can understand what we are doing. Then, we started with the development of the project itself. We applied the MVC pattern and used good programming practices. The entity-relation diagram we model is the following:
+![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/e8cd953e-2c2d-4eb8-8ee9-28e36064604f)
+
 
 ## Technologies
 
