@@ -18,7 +18,7 @@ In order to start doing this project, we firstly did a design plan representing 
 
 ## Set-Up
 
-To run this project you will need an updated version of Java.
+To run this project you will need Java installed in your machine, precisely the version 21.
 First, clone this repository in a folder of your PC.
 You have to put the following command in a terminal:
 
