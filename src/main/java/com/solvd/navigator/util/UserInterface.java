@@ -2,6 +2,7 @@ package com.solvd.navigator.util;
 
 import com.solvd.navigator.model.PathContainer;
 import com.solvd.navigator.model.Transport;
+import com.solvd.navigator.model.exceptions.NoSecondPathException;
 import com.solvd.navigator.service.StationService;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class UserInterface {
         System.out.println("Select the mean of transport you are using");
         System.out.println("  - CAR");
         System.out.println("  - BUS");
-        String option = "car";
+        String option = input.nextLine();
         List<String> transportNames = Arrays.stream(Transport.values())
                 .map(Transport::getName)
                 .toList();
@@ -47,18 +48,19 @@ public class UserInterface {
     }
 
     public void requestStations(Transport transport) {
-        int startStation = 1;
-        int endStation = 3;
+        int startStation = userOption("start");
+        int endStation = userOption("end");
         input.close();
         if (transport == Transport.CAR) {
             getShortestPath(startStation, endStation);
+            getSecondShortestPath(startStation, endStation);
         } else {
             getPathAndBuses(startStation, endStation);
         }
     }
 
     public void getShortestPath(int startStation, int endStation) {
-        PathContainer shortestPath = allPairShortestPath.floydWarshallWithSecondLeastPath(this.graph, startStation, endStation);
+        PathContainer shortestPath = allPairShortestPath.floydWarshallWithLeastPath(this.graph, startStation, endStation);
         List<String> path = shortestPath.getPathFromAtoB()
                 .stream()
                 .map(integer -> this.stations.get(integer))
@@ -66,6 +68,25 @@ public class UserInterface {
         System.out.printf("The shortest distance between %s station and %s station is %d%n and you will have to" +
                         " pass through the stations " + path, stations.get(startStation - 1),
                 stations.get(endStation - 1), shortestPath.getShortestDistance());
+        System.out.println(" ");
+    }
+
+    private void getSecondShortestPath(int startStation, int endStation) {
+        PathContainer shortestPath = null;
+        try {
+            shortestPath = allPairShortestPath.floydWarshallWithSecondLeastPath(this.graph, startStation, endStation);
+        } catch (NoSecondPathException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        List<String> path = shortestPath.getPathFromAtoB()
+                .stream()
+                .map(integer -> this.stations.get(integer))
+                .toList();
+        System.out.printf("The second shortest distance between %s station and %s station is %d%n and you will have to" +
+                        " pass through the stations " + path, stations.get(startStation - 1),
+                stations.get(endStation - 1), shortestPath.getShortestDistance());
+        System.out.println(" ");
     }
 
     public void getPathAndBuses(int startStation, int endStation) {

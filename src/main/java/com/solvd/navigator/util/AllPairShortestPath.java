@@ -1,6 +1,7 @@
 package com.solvd.navigator.util;
 
 import com.solvd.navigator.model.PathContainer;
+import com.solvd.navigator.model.exceptions.NoSecondPathException;
 import com.solvd.navigator.service.StationService;
 
 import java.lang.*;
@@ -38,11 +39,13 @@ public class AllPairShortestPath {
         //Path matrix
         int[][] pathMatrix = new int[V][V];
 
-        floydWarshallAlgorithm(dist, pathMatrix);
+        int[][] auxDist = copy(dist); // I have to make a copy, because otherwise the algorithm will modify the matrix from the calling method
+
+        floydWarshallAlgorithm(auxDist, pathMatrix);
 
         List<Integer> pathFromAtoB = pathFromAtoB(pathMatrix, startStation, endStation);
 
-        return new PathContainer(dist[startStation][endStation], pathFromAtoB);
+        return new PathContainer(auxDist[startStation][endStation], pathFromAtoB);
     }
 
     private void floydWarshallAlgorithm(int[][] dist, int[][] pathMatrix) {
@@ -68,7 +71,7 @@ public class AllPairShortestPath {
         }
     }
 
-    public PathContainer floydWarshallWithSecondLeastPath(int[][] dist, int startStation, int endStation) {
+    public PathContainer floydWarshallWithSecondLeastPath(int[][] dist, int startStation, int endStation) throws NoSecondPathException {
         startStation -= 1;
         endStation -=1;
         //Path matrix
@@ -82,7 +85,11 @@ public class AllPairShortestPath {
         int[] path = leastPath.stream().mapToInt(i -> i).toArray();
         int[][] secondDist = copy(dist);
         int[][] secondPath = new int[V][V];
-        int secondLeastDistance = dist[startStation][endStation];
+        int secondLeastDistance = INF;
+
+//        if (path.length == 2) {
+//        }
+
         for (int i = 1; i < path.length; i++) {
             int[][] tempDist = copy(dist);
             int[][] tempPath = new int[V][V];
@@ -99,6 +106,13 @@ public class AllPairShortestPath {
                 secondDist = copy(tempDist);
                 secondPath = copy(tempPath);
             }
+        }
+
+        if (secondLeastDistance == INF) {
+            List<String> stations = stationService.getAllStationsNames();
+
+            throw new NoSecondPathException(String.format("There is no alternative path between %s and %s",
+                    stations.get(startStation), stations.get(endStation)));
         }
 
         List<Integer> secondLeastPath = pathFromAtoB(secondPath, startStation, endStation);
