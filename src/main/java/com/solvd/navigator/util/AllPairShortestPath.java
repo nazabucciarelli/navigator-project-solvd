@@ -38,40 +38,14 @@ public class AllPairShortestPath {
         //Path matrix
         int[][] pathMatrix = new int[V][V];
 
-        for (int i = 0; i < dist.length; i++) {
-            for (int j = 0; j < dist.length; j++) {
-                if (dist[i][j] == INF) {
-                    pathMatrix[i][j] = -1;
-                } else {
-                    pathMatrix[i][j] = i;
-                }
-            }
-        }
-
-        for (int k = 0; k < V; k++) {
-            for (int i = 0; i < V; i++) {
-                for (int j = 0; j < V; j++) {
-                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                        pathMatrix[i][j] = pathMatrix[k][j];
-                    }
-                }
-            }
-        }
+        floydWarshallAlgorithm(dist, pathMatrix);
 
         List<Integer> pathFromAtoB = pathFromAtoB(pathMatrix, startStation, endStation);
 
         return new PathContainer(dist[startStation][endStation], pathFromAtoB);
     }
 
-    public PathContainer floydWarshallWithSecondLeastPath(int[][] dist, int startStation, int endStation) {
-        startStation -= 1;
-        endStation -=1;
-        //Path matrix
-        int[][] pathMatrix = new int[V][V];
-        int[][] auxPathMatrix = new int[V][V];
-        int[][] auxDist = new int[V][V];
-
+    private void floydWarshallAlgorithm(int[][] dist, int[][] pathMatrix) {
         for (int i = 0; i < dist.length; i++) {
             for (int j = 0; j < dist.length; j++) {
                 if (dist[i][j] == INF) {
@@ -86,20 +60,50 @@ public class AllPairShortestPath {
             for (int i = 0; i < V; i++) {
                 for (int j = 0; j < V; j++) {
                     if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                        if (i == startStation && j == endStation) { // Make a copy of the last time the least path is found
-                            auxDist = copy(dist);             // That is, the second least path
-                            auxPathMatrix = copy(pathMatrix);
-                        }
                         dist[i][j] = dist[i][k] + dist[k][j];
                         pathMatrix[i][j] = pathMatrix[k][j];
                     }
                 }
             }
         }
+    }
 
-        List<Integer> pathFromAtoB = pathFromAtoB(auxPathMatrix, startStation, endStation);
+    public PathContainer floydWarshallWithSecondLeastPath(int[][] dist, int startStation, int endStation) {
+        startStation -= 1;
+        endStation -=1;
+        //Path matrix
 
-        return new PathContainer(auxDist[startStation][endStation], pathFromAtoB);
+        int[][] leastDist = copy(dist);
+        int[][] leastPathMat = new int[V][V];
+        floydWarshallAlgorithm(leastDist, leastPathMat);
+
+        List<Integer> leastPath = pathFromAtoB(leastPathMat, startStation, endStation);
+
+        int[] path = leastPath.stream().mapToInt(i -> i).toArray();
+        int[][] secondDist = copy(dist);
+        int[][] secondPath = new int[V][V];
+        int secondLeastDistance = dist[startStation][endStation];
+        for (int i = 1; i < path.length; i++) {
+            int[][] tempDist = copy(dist);
+            int[][] tempPath = new int[V][V];
+
+            // I block the path between node i and i-1 of the least path, so the
+            // algorithm has to find another path, one of these paths will be the
+            // second least path, I just need to compare them and find it
+            tempDist[path[i]][path[i-1]] = INF;
+            tempDist[path[i-1]][path[i]] = INF;
+
+            floydWarshallAlgorithm(tempDist, tempPath);
+            if (tempDist[startStation][endStation] < secondLeastDistance) {
+                secondLeastDistance = tempDist[startStation][endStation];
+                secondDist = copy(tempDist);
+                secondPath = copy(tempPath);
+            }
+        }
+
+        List<Integer> secondLeastPath = pathFromAtoB(secondPath, startStation, endStation);
+
+        return new PathContainer(secondDist[startStation][endStation], secondLeastPath);
     }
 
     private int[][] copy(int[][] matrix) {

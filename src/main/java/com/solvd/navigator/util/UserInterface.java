@@ -29,7 +29,7 @@ public class UserInterface {
         System.out.println("Select the mean of transport you are using");
         System.out.println("  - CAR");
         System.out.println("  - BUS");
-        String option = input.nextLine();
+        String option = "car";
         List<String> transportNames = Arrays.stream(Transport.values())
                 .map(Transport::getName)
                 .toList();
@@ -47,8 +47,8 @@ public class UserInterface {
     }
 
     public void requestStations(Transport transport) {
-        int startStation = userOption("start");
-        int endStation = userOption("end");
+        int startStation = 1;
+        int endStation = 3;
         input.close();
         if (transport == Transport.CAR) {
             getShortestPath(startStation, endStation);
@@ -58,7 +58,7 @@ public class UserInterface {
     }
 
     public void getShortestPath(int startStation, int endStation) {
-        PathContainer shortestPath = allPairShortestPath.floydWarshallWithLeastPath(this.graph, startStation, endStation);
+        PathContainer shortestPath = allPairShortestPath.floydWarshallWithSecondLeastPath(this.graph, startStation, endStation);
         List<String> path = shortestPath.getPathFromAtoB()
                 .stream()
                 .map(integer -> this.stations.get(integer))
