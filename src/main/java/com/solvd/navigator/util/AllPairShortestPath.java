@@ -4,48 +4,17 @@ import com.solvd.navigator.model.PathContainer;
 import com.solvd.navigator.model.exceptions.NoSecondPathException;
 import com.solvd.navigator.service.StationService;
 
-import java.lang.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AllPairShortestPath {
-    private StationService stationService;
+    private final StationService stationService;
     public final static int INF = 99999;
     public final int V;
 
     public AllPairShortestPath() {
         this.stationService = new StationService();
         this.V = stationService.getStationsAmount();
-    }
-
-    public int[][] floydWarshall(int[][] dist, int startStation, int endStation) {
-        int i, j, k;
-        //startStation endStation never used
-        for (k = 0; k < V; k++) {
-            for (i = 0; i < V; i++) {
-                for (j = 0; j < V; j++) {
-                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                    }
-                }
-            }
-        }
-
-        return dist;
-    }
-
-    public PathContainer floydWarshallWithLeastPath(int[][] dist, int startStation, int endStation) {
-        startStation -= 1;
-        endStation -=1;
-        //Path matrix
-        int[][] pathMatrix = new int[V][V];
-
-        int[][] auxDist = copy(dist); // I have to make a copy, because otherwise the algorithm will modify the matrix from the calling method
-
-        floydWarshallAlgorithm(auxDist, pathMatrix);
-
-        List<Integer> pathFromAtoB = pathFromAtoB(pathMatrix, startStation, endStation);
-
-        return new PathContainer(auxDist[startStation][endStation], pathFromAtoB);
     }
 
     private void floydWarshallAlgorithm(int[][] dist, int[][] pathMatrix) {
@@ -71,56 +40,68 @@ public class AllPairShortestPath {
         }
     }
 
-    public PathContainer floydWarshallWithSecondLeastPath(int[][] dist, int startStation, int endStation) throws NoSecondPathException {
+    public PathContainer floydWarshallWithShortestPath(int[][] dist, int startStation, int endStation) {
         startStation -= 1;
-        endStation -=1;
+        endStation -= 1;
+        //Path matrix
+        int[][] pathMatrix = new int[V][V];
+
+        int[][] auxDist = copyArray(dist); // I have to make a copy, because otherwise the algorithm will modify the matrix from the calling method
+
+        floydWarshallAlgorithm(auxDist, pathMatrix);
+
+        List<Integer> pathFromAtoB = pathFromAtoB(pathMatrix, startStation, endStation);
+
+        return new PathContainer(auxDist[startStation][endStation], pathFromAtoB);
+    }
+
+    public PathContainer floydWarshallWithSecondShortestPath(int[][] dist, int startStation, int endStation) throws NoSecondPathException {
+        startStation -= 1;
+        endStation -= 1;
         //Path matrix
 
-        int[][] leastDist = copy(dist);
-        int[][] leastPathMat = new int[V][V];
-        floydWarshallAlgorithm(leastDist, leastPathMat);
+        int[][] shortestDist = copyArray(dist);
+        int[][] shortestPathMat = new int[V][V];
+        floydWarshallAlgorithm(shortestDist, shortestPathMat);
 
-        List<Integer> leastPath = pathFromAtoB(leastPathMat, startStation, endStation);
+        List<Integer> shortestPath = pathFromAtoB(shortestPathMat, startStation, endStation);
 
-        int[] path = leastPath.stream().mapToInt(i -> i).toArray();
-        int[][] secondDist = copy(dist);
+        int[] path = shortestPath.stream().mapToInt(i -> i).toArray();
+        int[][] secondDist = copyArray(dist);
         int[][] secondPath = new int[V][V];
-        int secondLeastDistance = INF;
-
-//        if (path.length == 2) {
-//        }
+        int secondShortestDistance = INF;
 
         for (int i = 1; i < path.length; i++) {
-            int[][] tempDist = copy(dist);
+            int[][] tempDist = copyArray(dist);
             int[][] tempPath = new int[V][V];
 
             // I block the path between node i and i-1 of the least path, so the
             // algorithm has to find another path, one of these paths will be the
             // second least path, I just need to compare them and find it
-            tempDist[path[i]][path[i-1]] = INF;
-            tempDist[path[i-1]][path[i]] = INF;
+            tempDist[path[i]][path[i - 1]] = INF;
+            tempDist[path[i - 1]][path[i]] = INF;
 
             floydWarshallAlgorithm(tempDist, tempPath);
-            if (tempDist[startStation][endStation] < secondLeastDistance) {
-                secondLeastDistance = tempDist[startStation][endStation];
-                secondDist = copy(tempDist);
-                secondPath = copy(tempPath);
+            if (tempDist[startStation][endStation] < secondShortestDistance) {
+                secondShortestDistance = tempDist[startStation][endStation];
+                secondDist = copyArray(tempDist);
+                secondPath = copyArray(tempPath);
             }
         }
 
-        if (secondLeastDistance == INF) {
+        if (secondShortestDistance == INF) {
             List<String> stations = stationService.getAllStationsNames();
 
             throw new NoSecondPathException(String.format("There is no alternative path between %s and %s",
                     stations.get(startStation), stations.get(endStation)));
         }
 
-        List<Integer> secondLeastPath = pathFromAtoB(secondPath, startStation, endStation);
+        List<Integer> secondShortestPath = pathFromAtoB(secondPath, startStation, endStation);
 
-        return new PathContainer(secondDist[startStation][endStation], secondLeastPath);
+        return new PathContainer(secondDist[startStation][endStation], secondShortestPath);
     }
 
-    private int[][] copy(int[][] matrix) {
+    private int[][] copyArray(int[][] matrix) {
         int[][] m = new int[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             System.arraycopy(matrix[i], 0, m[i], 0, matrix[i].length);
@@ -129,7 +110,6 @@ public class AllPairShortestPath {
     }
 
     private List<Integer> pathFromAtoB(int[][] paths, int startStation, int endStation) {
-
         //Initialize list to add stations to follow to arrive at the final station
         List<Integer> list = new LinkedList<>();
 
@@ -145,21 +125,5 @@ public class AllPairShortestPath {
 
         return list;
     }
-
-    public void printSolution(int[][] dist) {
-        System.out.println(
-                "The following matrix shows the shortest "
-                        + "distances between every pair of vertices");
-        for (int i = 0; i < V; ++i) {
-            for (int j = 0; j < V; ++j) {
-                if (dist[i][j] == INF)
-                    System.out.print("INF ");
-                else
-                    System.out.print(dist[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
 }
 
