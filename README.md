@@ -1,14 +1,13 @@
 # Navigator App
 
-This application allows users to know what is the shortest and the second shortest ways from a station to another navigating by car using the Floyd-Marshall Algorithm. Also it is possible to select bus as mean of transport, know what bus the user has to get on and where to change of bus.
-The map of stations is the following:
+This application allows users to determine the shortest and second shortest routes from one station to another when navigating by car using the Floyd-Warshall Algorithm. Additionally, it is possible to select the bus as the means of transport, find out which bus the user has to board, and identify where to change buses.
+The map of stations is as follows:
 ![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/8b34b14c-20c3-41fe-9e56-6eb1f24f3fb8)
 
 
 ## Explanation
 
-In order to start doing this project, we firstly did a design plan representing all the entities that will interact within the application
-and also the responsibilities of each developer, so all the team members can understand what we are doing. Then, we started with the development of the project itself. We applied the MVC pattern and used good programming practices. The entity-relation diagram we model is the following:
+In order to start working on this project, we first created a design plan that represents all the entities interacting within the application, along with the responsibilities assigned to each developer. This ensures that all team members have a clear understanding of our tasks. Subsequently, we initiated the development of the project itself. We applied the MVC pattern and adhered to good programming practices. The entity-relationship diagram we modeled is as follows:
 ![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/e8cd953e-2c2d-4eb8-8ee9-28e36064604f)
 
 
@@ -21,17 +20,15 @@ and also the responsibilities of each developer, so all the team members can und
 
 ## Set-Up
 
-To run this project you will need Java installed in your machine, precisely the version 21.
-First, clone this repository in a folder of your PC.
-You have to put the following command in a terminal:
+To run this project, you will need Java installed on your machine, specifically version 21. First, clone this repository into a folder on your PC. You need to enter the following command in a terminal:
 
 ```bash
-  git clone this-repo-url
+  git clone https://github.com/nazabucciarelli/navigator-project-solvd.git
 ```
-After, open the SQL file stored in src/main/resources with MySQL Workbench or any other database tool and run the whole statement to setup the project's database.
-Keep in mind that you will need the database to be running in you local machine. You can use XAMPP if you want it.
 
-Then, make sure of creating a db.properties file in the folder src/main/resources and specify the following values:
+Afterward, open the SQL file stored in src/main/resources with MySQL Workbench or any other database tool and run the entire script to set up the project's database. Keep in mind that you will need the database to be running on your local machine. You can use XAMPP if you prefer.
+
+Then, make sure to create a db.properties file in the folder src/main/resources and specify the following values:
 
 ```
 db.driver=com.mysql.cj.jdbc.Driver
