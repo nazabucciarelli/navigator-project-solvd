@@ -43,6 +43,12 @@ public class UserInterface {
 
     public void navigation(Transport transport) {
         System.out.println("You selected navigation by " + transport.getName());
+        if (transport.equals(Transport.BUS)) {
+            System.out.println("The 'Navigation by bus' feature is not available yet, please" +
+                    " select another mean of transport.");
+            start();
+            return;
+        }
         showAvailableStations();
         requestStations(transport);
     }
@@ -60,7 +66,7 @@ public class UserInterface {
     }
 
     public void getShortestPath(int startStation, int endStation) {
-        PathContainer shortestPath = allPairShortestPath.floydWarshallWithLeastPath(this.graph, startStation, endStation);
+        PathContainer shortestPath = allPairShortestPath.floydWarshallWithShortestPath(this.graph, startStation, endStation);
         List<String> path = shortestPath.getPathFromAtoB()
                 .stream()
                 .map(integer -> this.stations.get(integer))
@@ -74,7 +80,7 @@ public class UserInterface {
     private void getSecondShortestPath(int startStation, int endStation) {
         PathContainer shortestPath = null;
         try {
-            shortestPath = allPairShortestPath.floydWarshallWithSecondLeastPath(this.graph, startStation, endStation);
+            shortestPath = allPairShortestPath.floydWarshallWithSecondShortestPath(this.graph, startStation, endStation);
         } catch (NoSecondPathException e) {
             System.out.println(e.getMessage());
             return;

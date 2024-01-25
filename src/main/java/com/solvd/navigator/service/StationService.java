@@ -80,7 +80,7 @@ public class StationService{
      * @return true if element exist
      * @throws RuntimeException
      */
-    public boolean stationExist(String name) throws RuntimeException {
+    public boolean stationExists(String name) throws RuntimeException {
         if (name == null) {
             throw new NullPointerException("Parameter \"name\" can't be null");
         }
