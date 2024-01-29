@@ -2,7 +2,10 @@
 
 This application allows users to determine the shortest and second shortest routes from one station to another when navigating by car using the Floyd-Warshall Algorithm. Additionally, it is possible to select the bus as the means of transport, find out which bus the user has to board, and identify where to change buses.
 The map of stations is as follows:
-![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/8b34b14c-20c3-41fe-9e56-6eb1f24f3fb8)
+![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/24bf8946-a254-47e3-8bc5-57b4151b3709)
+
+The routes the buses do are as follows:
+![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/b4dfa6ad-04f2-47c7-af81-51e91b32cd8d)
 
 
 ## Explanation
