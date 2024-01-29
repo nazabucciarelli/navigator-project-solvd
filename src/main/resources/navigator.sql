@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `navigator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `navigator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `navigator`;
--- MySQL dump 10.13  Distrib 8.0.35, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
 --
 -- Host: localhost    Database: navigator
 -- ------------------------------------------------------
--- Server version	8.0.35-0ubuntu0.22.04.1
+-- Server version	5.5.5-10.4.28-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `bus_stations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bus_stations` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `buses_id` bigint unsigned NOT NULL,
-  `stations_id` bigint unsigned NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `buses_id` bigint(20) unsigned NOT NULL,
+  `stations_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `bus_nodes_FK` (`buses_id`),
   KEY `bus_nodes_FK_1` (`stations_id`),
   CONSTRAINT `bus_nodes_FK` FOREIGN KEY (`buses_id`) REFERENCES `buses` (`id`),
   CONSTRAINT `bus_nodes_FK_1` FOREIGN KEY (`stations_id`) REFERENCES `stations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `bus_stations` (
 
 LOCK TABLES `bus_stations` WRITE;
 /*!40000 ALTER TABLE `bus_stations` DISABLE KEYS */;
+INSERT INTO `bus_stations` VALUES (1,1,1),(2,1,2),(3,1,4),(4,1,3),(5,2,2),(6,2,4),(7,2,6),(8,3,2),(9,3,6),(10,3,7),(11,3,5),(12,3,4);
 /*!40000 ALTER TABLE `bus_stations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,10 +54,10 @@ DROP TABLE IF EXISTS `buses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `buses` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +66,7 @@ CREATE TABLE `buses` (
 
 LOCK TABLES `buses` WRITE;
 /*!40000 ALTER TABLE `buses` DISABLE KEYS */;
+INSERT INTO `buses` VALUES (1,'A'),(2,'B'),(3,'C');
 /*!40000 ALTER TABLE `buses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,16 +78,16 @@ DROP TABLE IF EXISTS `roads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roads` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `distance` float NOT NULL,
-  `from_stations_id` bigint unsigned NOT NULL,
-  `to_stations_id` bigint unsigned NOT NULL,
+  `from_stations_id` bigint(20) unsigned NOT NULL,
+  `to_stations_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `routes_FK` (`from_stations_id`),
   KEY `routes_FK_1` (`to_stations_id`),
   CONSTRAINT `routes_FK` FOREIGN KEY (`from_stations_id`) REFERENCES `stations` (`id`),
   CONSTRAINT `routes_FK_1` FOREIGN KEY (`to_stations_id`) REFERENCES `stations` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,10 +108,10 @@ DROP TABLE IF EXISTS `stations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stations` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-19 17:21:53
+-- Dump completed on 2024-01-27 14:41:21
