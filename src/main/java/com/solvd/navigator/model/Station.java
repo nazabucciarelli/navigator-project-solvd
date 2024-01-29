@@ -5,12 +5,12 @@ import java.util.List;
 public class Station {
     private int id;
     private String name;
-    private List<Integer> buses;
+    private List<Integer> busesId;
 
-    public Station(int id, String name, List<Integer> buses) {
+    public Station(int id, String name, List<Integer> busesId) {
         this.id = id;
         this.name = name;
-        this.buses = buses;
+        this.busesId = busesId;
     }
 
     public Station(int id, String name) {
@@ -39,12 +39,12 @@ public class Station {
         this.name = name;
     }
 
-    public List<Integer> getBuses() {
-        return buses;
+    public List<Integer> getBusesId() {
+        return busesId;
     }
 
-    public void setBuses(List<Integer> buses) {
-        this.buses = buses;
+    public void setBusesId(List<Integer> busesId) {
+        this.busesId = busesId;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Station {
         return "Station{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", buses=" + buses +
+                ", buses=" + busesId +
                 '}';
     }
 }
