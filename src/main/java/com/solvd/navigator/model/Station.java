@@ -1,8 +1,17 @@
 package com.solvd.navigator.model;
 
+import java.util.List;
+
 public class Station {
     private int id;
     private String name;
+    private List<Integer> buses;
+
+    public Station(int id, String name, List<Integer> buses) {
+        this.id = id;
+        this.name = name;
+        this.buses = buses;
+    }
 
     public Station(int id, String name) {
         this.id = id;
@@ -30,11 +39,20 @@ public class Station {
         this.name = name;
     }
 
+    public List<Integer> getBuses() {
+        return buses;
+    }
+
+    public void setBuses(List<Integer> buses) {
+        this.buses = buses;
+    }
+
     @Override
     public String toString() {
         return "Station{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", buses=" + buses +
                 '}';
     }
 }
