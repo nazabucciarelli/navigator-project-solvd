@@ -2,9 +2,11 @@ package com.solvd.navigator.util;
 
 import com.solvd.navigator.model.PathContainer;
 import com.solvd.navigator.model.Transport;
+import com.solvd.navigator.model.exceptions.NoBusContinuityException;
 import com.solvd.navigator.model.exceptions.NoSecondPathException;
 import com.solvd.navigator.service.StationService;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,12 +45,6 @@ public class UserInterface {
 
     public void navigation(Transport transport) {
         System.out.println("You selected navigation by " + transport.getName());
-        if (transport.equals(Transport.BUS)) {
-            System.out.println("The 'Navigation by bus' feature is not available yet, please" +
-                    " select another mean of transport.");
-            start();
-            return;
-        }
         showAvailableStations();
         requestStations(transport);
     }
@@ -96,7 +92,17 @@ public class UserInterface {
     }
 
     public void getPathAndBuses(int startStation, int endStation) {
-        // TO - DO
+        try {
+            String indications = new BusPath().getIndicationsByBus(this.graph, startStation, endStation);
+            System.out.printf(
+                    "To get from %s to %s by bus, you must follow the next indications:%n",
+                    stations.get(startStation - 1),
+                    stations.get(endStation - 1)
+            );
+            System.out.println(indications);
+        } catch (NoBusContinuityException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showAvailableStations() {

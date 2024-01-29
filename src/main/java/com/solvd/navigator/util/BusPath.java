@@ -1,8 +1,12 @@
 package com.solvd.navigator.util;
 
+import com.solvd.navigator.dao.IBusDao;
+import com.solvd.navigator.dao.jdbc.BusDao;
+import com.solvd.navigator.model.Bus;
 import com.solvd.navigator.model.BusStationStatus;
 import com.solvd.navigator.model.Station;
 import com.solvd.navigator.model.exceptions.NoBusContinuityException;
+import com.solvd.navigator.service.BusService;
 import com.solvd.navigator.service.StationService;
 
 import java.util.*;
@@ -127,5 +131,38 @@ public class BusPath {
 
     private static boolean isThereOnlyOneBusPassingThroughThisStation(Station station) {
         return station.getBusesId().size() == 1;
+    }
+
+    public String getIndicationsByBus(int[][] dist, int startStation, int endStation) throws NoBusContinuityException {
+        List<BusStationStatus> path = findBusPath(dist, startStation,endStation);
+        BusService busService = new BusService();
+        List<Bus> buses = busService.getAllBuses();
+        StationService stationService = new StationService();
+        List<String> stationNames = stationService.getAllStationsNames();
+        String indications = "";
+        indications += String.format(
+                "Fist, you must get on Bus %s in station %s\n",
+                buses.get(path.getFirst().getGetOnBusId()-1).getName(),
+                stationNames.get(path.getFirst().getStationId())
+        );
+        StringBuilder indicationsBuilder = new StringBuilder(indications);
+        for (int i = 1; i < path.size(); i++) {
+            if (path.get(i).getGetOnBusId() != -1) {
+                indicationsBuilder.append(String.format(
+                        "On station %s you must get off bus %s and get on bus %s\n",
+                        stationNames.get(path.get(i).getStationId()),
+                        buses.get(path.get(i).getGetOffBusId()-1).getName(),
+                        buses.get(path.get(i).getGetOnBusId()-1).getName()
+                ));
+            }
+        }
+        indicationsBuilder.append(String.format(
+                "Finally, you must get off bus %s on station %s, which is your " +
+                        "destination station",
+                buses.get(path.getLast().getCurrentBusId()-1).getName(),
+                stationNames.get(path.getLast().getStationId())
+        ));
+        indications = indicationsBuilder.toString();
+        return indications;
     }
 }
