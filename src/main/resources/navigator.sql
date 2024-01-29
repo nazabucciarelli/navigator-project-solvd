@@ -42,7 +42,7 @@ CREATE TABLE `bus_stations` (
 
 LOCK TABLES `bus_stations` WRITE;
 /*!40000 ALTER TABLE `bus_stations` DISABLE KEYS */;
-INSERT INTO `bus_stations` VALUES (1,1,1),(2,1,2),(3,1,4),(4,1,3),(5,2,2),(6,2,4),(7,2,6),(8,3,2),(9,3,6),(10,3,7),(11,3,5),(12,3,4);
+INSERT INTO `bus_stations` VALUES (1,1,1),(2,1,2),(3,1,4),(4,1,3),(5,2,2),(6,2,4),(7,2,6),(9,3,6),(10,3,7),(11,3,5),(12,3,4);
 /*!40000 ALTER TABLE `bus_stations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `roads` (
 
 LOCK TABLES `roads` WRITE;
 /*!40000 ALTER TABLE `roads` DISABLE KEYS */;
-INSERT INTO `roads` VALUES (1,3,1,2),(2,3,2,1),(3,8,2,6),(4,3,2,4),(5,2,4,3),(6,10,3,1),(7,6,6,7),(8,6,7,6),(9,3,7,5),(10,5,7,4),(11,6,5,4),(12,4,4,6);
+INSERT INTO `roads` VALUES (1,3,1,2),(2,3,2,1),(3,8,6,2),(4,3,2,4),(5,2,4,3),(6,10,3,1),(7,6,6,7),(8,6,7,6),(9,3,7,5),(11,6,5,4),(12,4,4,6);
 /*!40000 ALTER TABLE `roads` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-27 14:41:21
+-- Dump completed on 2024-01-29  1:00:27

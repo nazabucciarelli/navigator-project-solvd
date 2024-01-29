@@ -42,10 +42,6 @@ public class Bus {
 
     @Override
     public String toString() {
-        return "Bus{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", stations=" + stations +
-                '}';
+        return name;
     }
 }
