@@ -4,6 +4,9 @@ This application allows users to determine the shortest and second shortest rout
 The map of stations is as follows:
 ![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/8b34b14c-20c3-41fe-9e56-6eb1f24f3fb8)
 
+The routes of the buses are as follows:
+![image](https://github.com/nazabucciarelli/navigator-project-solvd/assets/84046180/07d74ca6-ffdc-40d4-86bf-bc32aedcfcaf)
+
 
 ## Explanation
 
