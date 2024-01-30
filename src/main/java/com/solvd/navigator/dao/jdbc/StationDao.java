@@ -102,8 +102,10 @@ public class StationDao implements IStationDao {
             resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
                 Station station = new Station();
-                station.setId(resultSet.getInt("id"));
+                int stationId = resultSet.getInt("id");
+                station.setId(stationId);
                 station.setName(resultSet.getString("name"));
+                station.setBusesId(getListOfBusesId(stationId, connection));
                 list.add(station);
             }
         } catch (SQLException e) {
@@ -113,5 +115,22 @@ public class StationDao implements IStationDao {
             Utils.closeAll(resultSet, preparedStatement);
         }
         return list;
+    }
+
+    private List<Integer> getListOfBusesId(int stationId, Connection connection) {
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        List<Integer> busesId = new ArrayList<>();
+        try {
+            preparedStatement = connection.prepareStatement("SELECT buses_id FROM bus_stations WHERE stations_id = ?");
+            preparedStatement.setInt(1, stationId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                busesId.add(resultSet.getInt("buses_id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return busesId;
     }
 }

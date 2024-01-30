@@ -2,25 +2,21 @@ package com.solvd.navigator.model;
 
 import java.util.List;
 
-public class Station {
+public class Bus {
     private int id;
     private String name;
-    private List<Integer> busesId;
+    private List<Station> stations;
 
-    public Station(int id, String name, List<Integer> busesId) {
-        this.id = id;
-        this.name = name;
-        this.busesId = busesId;
-    }
-
-    public Station(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Station() {
+    public Bus() {
         this.id = 0;
         this.name = "";
+        this.stations = null;
+    }
+
+    public Bus(int id, String name, List<Station> stations) {
+        this.id = id;
+        this.name = name;
+        this.stations = stations;
     }
 
     public int getId() {
@@ -39,20 +35,20 @@ public class Station {
         this.name = name;
     }
 
-    public List<Integer> getBusesId() {
-        return busesId;
+    public List<Station> getStations() {
+        return stations;
     }
 
-    public void setBusesId(List<Integer> busesId) {
-        this.busesId = busesId;
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
     }
 
     @Override
     public String toString() {
-        return "Station{" +
+        return "Bus{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", buses=" + busesId +
+                ", stations=" + stations +
                 '}';
     }
 }
